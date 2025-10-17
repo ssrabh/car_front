@@ -1,26 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:s_car/screens/devices/desktop_home.dart';
-import 'package:s_car/screens/devices/mobile_home.dart';
-import 'package:s_car/widgets/responsive_layout.dart';
+import 'screens/landing_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const CarWashApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CarWashApp extends StatelessWidget {
+  const CarWashApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Car Care',
+      title: 'Speedy Clean Car Wash Booking',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        // Primary color consistent with the car wash theme
+        primaryColor: const Color(0xFF1565C0),
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.blue,
+        ).copyWith(
+          secondary: const Color(0xFF0D47A1), // Darker Blue for accents
+        ),
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(fontWeight: FontWeight.w900, fontSize: 32),
+          titleMedium: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+          bodyMedium: TextStyle(fontSize: 16),
+        ),
         useMaterial3: true,
       ),
-      home: ResponsiveLayout(desktop: DeskTopHome(), mobile: MobileHome()),
+      home: const LandingPage(),
     );
   }
 }

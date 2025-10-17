@@ -1,0 +1,22 @@
+car_wash_booking/
+├── lib/
+│   ├── main.dart
+│   ├── config/
+│   │   ├── app_colors.dart        // Centralized colors
+│   │   └── app_data.dart          // Centralized mock/static data
+│   ├── models/
+│   │   └── booking_model.dart     // Data model
+│   ├── services/
+│   │   └── api_service.dart       // Handles API communication (Dio)
+│   ├── screens/
+│   │   └── landing_page.dart      // Main page composition (Scaffold)
+│   └── widgets/
+│       ├── sections/
+│       │   ├── hero_section.dart
+│       │   ├── why_us_section.dart
+│       │   ├── offers_section.dart
+│       │   ├── testimonials_section.dart
+│       │   └── footer_section.dart
+│       └── forms/
+│           └── booking_form.dart    // The stateful form logic
+└── pubspec.yaml
