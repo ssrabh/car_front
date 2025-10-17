@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primaryBlue = Color(0xFF1565C0); // Deep Blue
+  static const Color primaryBlue = Color(0xFF1976D2); // Standard Blue
   static const Color secondaryBlue = Color(0xFF0D47A1); // Darker Blue
-  static const Color lightBlue = Color(0xFFE3F2FD); // Very light background
-  static const Color accentRed = Color(0xFFC62828); // For offers
-  static const Color accentAmber = Colors.amber; // For ratings/stars
-  static Color backgroundLight = Colors.blue.shade50;
+  static const Color backgroundLight =
+      Color(0xFFF7F9FB); // Soft Gray Background
+  static const Color accentRed = Color(0xFFD32F2F); // Red for offers
+  static const Color accentAmber = Color(0xFFFFC107); // Amber for rating/stars
+  static const Color textDark = Color(0xFF333333);
 }

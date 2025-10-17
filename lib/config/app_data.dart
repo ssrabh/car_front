@@ -1,5 +1,6 @@
 // Mock data for dropdown and checkboxes
 import 'package:flutter/material.dart';
+import 'package:s_car/config/app_colors.dart';
 
 const List<String> vehicleTypes = [
   'Sedan',
@@ -16,68 +17,74 @@ const List<String> availableServices = [
   'Tire Rotation'
 ];
 
-// Mock data for Festive Offers section
-const List<Map<String, dynamic>> festiveOffers = [
-  {
-    'title': 'Diwali Deep Clean',
-    'details':
-        '50% off Full Detailing Service. Get your car ready for the festive season!',
-    'icon': Icons.local_fire_department,
-    'color': Color(0xFFC62828), // Accent Red
-  },
-  {
-    'title': 'New Year Sparkle',
-    'details': 'Book any 3 services and get the cheapest one FREE.',
-    'icon': Icons.celebration,
-    'color': Color(0xFF1565C0), // Primary Blue
-  },
-  {
-    'title': 'Monsoon Protection',
-    'details': 'Free Anti-Rust Underbody Coating with every Premium Wash.',
-    'icon': Icons.umbrella,
-    'color': Color(0xFF0D47A1), // Secondary Blue
-  },
-];
+// --- Global Keys for Navigation (Fixes the Null Error) ---
+class NavKeys {
+  static final GlobalKey heroKey = GlobalKey(debugLabel: 'hero');
+  static final GlobalKey whyUsKey = GlobalKey(debugLabel: 'whyUs');
+  static final GlobalKey offersKey = GlobalKey(debugLabel: 'offers');
+  static final GlobalKey testimonialsKey = GlobalKey(debugLabel: 'reviews');
+  static final GlobalKey bookingKey = GlobalKey(debugLabel: 'booking');
+}
 
-// Mock data for Testimonials section
-const List<Map<String, String>> testimonials = [
-  {
-    'quote':
-        "Best car wash experience! My SUV looks brand new every time. The online booking is incredibly convenient.",
-    'author': "Ravi K.",
-    'rating': "⭐⭐⭐⭐⭐"
-  },
-  {
-    'quote':
-        "I appreciate the attention to detail. I booked a service for oil change and a wash, and they were quick and professional.",
-    'author': "Priya S.",
-    'rating': "⭐⭐⭐⭐"
-  },
-  {
-    'quote':
-        "Smooth scheduling and great service. The festive offer was a huge bonus!",
-    'author': "Ajay V.",
-    'rating': "⭐⭐⭐⭐⭐"
-  },
-];
+// Global Key for the booking form (used by HeroSection button)
+final GlobalKey bookingFormKey = NavKeys.bookingKey;
 
-// Mock data for Why Us section
+// --- Section Mock Data ---
+
 const List<Map<String, dynamic>> whyUsFeatures = [
   {
-    'icon': Icons.speed,
-    'title': 'Speedy Service',
-    'desc':
-        'In-and-out fast without compromising quality. Your time is valuable.'
+    'icon': Icons.schedule,
+    'title': 'Quick Service',
+    'desc': 'In & out in under 30 minutes. We value your time.',
   },
   {
     'icon': Icons.eco,
-    'title': 'Premium Eco-Products',
-    'desc':
-        'Only use eco-friendly and top-tier cleaning agents for your vehicle.'
+    'title': 'Eco-Friendly',
+    'desc': 'Using biodegradable soaps and minimal water waste.',
   },
   {
-    'icon': Icons.calendar_month,
-    'title': 'Easy Online Booking',
-    'desc': '24/7 online scheduling right here on our responsive website.'
+    'icon': Icons.star_border,
+    'title': 'Premium Finish',
+    'desc': 'Attention to detail for a streak-free, mirror shine.',
+  },
+];
+
+const List<Map<String, dynamic>> festiveOffers = [
+  {
+    'icon': Icons.bolt,
+    'title': 'The Turbo Wash',
+    'details': '50% off your second car wash this month!',
+    'color': AppColors.primaryBlue,
+  },
+  {
+    'icon': Icons.local_fire_department,
+    'title': 'Winter Protection',
+    'details': 'Free wax upgrade with any premium interior clean.',
+    'color': AppColors.accentRed,
+  },
+  {
+    'icon': Icons.card_giftcard,
+    'title': 'Loyalty Bonus',
+    'details': 'Book 3, get the 4th wash absolutely free!',
+    'color': AppColors.accentAmber,
+  },
+];
+
+const List<Map<String, String>> testimonials = [
+  {
+    'quote': 'My car has never looked this good! The booking was so easy.',
+    'author': 'Sarah K.',
+    'rating': '★★★★★',
+  },
+  {
+    'quote':
+        'Fast, efficient, and great value. I highly recommend Speedy Clean.',
+    'author': 'David L.',
+    'rating': '★★★★★',
+  },
+  {
+    'quote': 'The best wash in town, hands down. The staff were friendly too!',
+    'author': 'Maria T.',
+    'rating': '★★★★☆',
   },
 ];

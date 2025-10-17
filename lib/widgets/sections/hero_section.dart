@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:s_car/config/app_data.dart';
 import '../../config/app_colors.dart';
-import '../forms/booking_form.dart'; // Import the form key
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
@@ -44,11 +44,11 @@ class HeroSection extends StatelessWidget {
         const SizedBox(height: 24),
         ElevatedButton.icon(
           onPressed: () {
-            // Scroll logic to jump to the booking form
             Scrollable.ensureVisible(
-              bookingFormKey.currentContext!,
+              bookingFormKey
+                  .currentContext!, // FIXED: Uses the globally accessible key
               duration: const Duration(milliseconds: 700),
-              curve: Curves.easeInOutCubic,
+              // ...
             );
           },
           icon: const Icon(Icons.arrow_downward, color: Colors.white),

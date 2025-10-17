@@ -1,4 +1,8 @@
+// lib/main.dart
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'config/app_colors.dart';
 import 'screens/landing_page.dart';
 
 void main() {
@@ -14,21 +18,27 @@ class CarWashApp extends StatelessWidget {
       title: 'Speedy Clean Car Wash Booking',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // Primary color consistent with the car wash theme
-        primaryColor: const Color(0xFF1565C0),
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.blue,
+        // Modern Font: Poppins or Inter is common for SPAs
+        fontFamily: GoogleFonts.poppins().fontFamily,
+        primaryColor: AppColors.primaryBlue,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.primaryBlue,
+          primary: AppColors.primaryBlue,
+          secondary: AppColors.secondaryBlue,
+          // Set light background color
+          background: AppColors.backgroundLight,
         ).copyWith(
-          secondary: const Color(0xFF0D47A1), // Darker Blue for accents
+          secondary: AppColors.secondaryBlue,
         ),
-        textTheme: const TextTheme(
-          titleLarge: TextStyle(fontWeight: FontWeight.w900, fontSize: 32),
-          titleMedium: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
-          bodyMedium: TextStyle(fontSize: 16),
+        // Global Card Style: Flat design with subtle rounded corners
+        cardTheme: CardTheme(
+          elevation: 0,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
         useMaterial3: true,
       ),
-      home: const LandingPage(),
+      home: LandingPage(),
     );
   }
 }
