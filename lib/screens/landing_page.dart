@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:s_car/screens/scroll_provider.dart';
+import 'package:s_car/widgets/sections/service_section.dart';
 import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 import '../config/app_colors.dart';
 import '../config/app_data.dart';
@@ -18,6 +19,7 @@ class LandingPage extends StatelessWidget {
 
   final List<Map<String, dynamic>> _navItems = [
     {'title': 'Home', 'key': NavKeys.heroKey},
+    {'title': 'Service', 'key': NavKeys.serviceKey},
     {'title': 'Why Us', 'key': NavKeys.whyUsKey},
     {'title': 'Offers', 'key': NavKeys.offersKey},
     {'title': 'Reviews', 'key': NavKeys.testimonialsKey},
@@ -33,34 +35,12 @@ class LandingPage extends StatelessWidget {
         final isMobile = sizingInfo.isMobile;
 
         return Scaffold(
+          // AppBar handles the Burger icon automatically
           appBar: ResponsiveNavBar(navItems: _navItems),
-          drawer: isMobile
-              ? Drawer(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: [
-                      const DrawerHeader(
-                        decoration: BoxDecoration(color: AppColors.primaryBlue),
-                        child: Text(
-                          'Speedy Clean',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                          ),
-                        ),
-                      ),
-                      ..._navItems.map((item) {
-                        return ListTile(
-                          title: Text(item['title']),
-                          onTap: () {
-                            Navigator.pop(context);
-                            scrollPvd.scrollTo(item['key']);
-                          },
-                        );
-                      }),
-                    ],
-                  ),
-                )
+
+          // Use endDrawer: to show the icon on the right side of the AppBar
+          endDrawer: isMobile
+              ? _buildModernEndDrawer(context, _navItems, scrollPvd)
               : null, // No drawer on tablet or desktop
 
           body: WebSmoothScroll(
@@ -76,6 +56,9 @@ class LandingPage extends StatelessWidget {
                 children: [
                   RepaintBoundary(
                       key: NavKeys.heroKey, child: const HeroSection()),
+                  const SizedBox(height: 80),
+                  RepaintBoundary(
+                      key: NavKeys.serviceKey, child: const ServiceSection()),
                   const SizedBox(height: 80),
                   RepaintBoundary(
                       key: NavKeys.whyUsKey, child: const WhyUsSection()),
@@ -97,6 +80,98 @@ class LandingPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  // --- Modern EndDrawer Implementation ---
+  Widget _buildModernEndDrawer(BuildContext context,
+      List<Map<String, dynamic>> navItems, ScrollProvider scrollPvd) {
+    return Drawer(
+      // Modern design: Remove default padding and use a clean background
+      backgroundColor: Colors.white,
+      child: Column(
+        children: [
+          // 1. Custom Drawer Header (Cleaner look)
+          Container(
+            padding: const EdgeInsets.only(top: 40, bottom: 20, left: 16),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: AppColors.primaryBlue, // Brand color header
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 5,
+                    offset: const Offset(0, 3))
+              ],
+            ),
+            child: Row(
+              children: [
+                // Icon matching the app theme
+                const Icon(Icons.car_repair, color: Colors.white, size: 30),
+                const SizedBox(width: 10),
+                Text(
+                  'CARCARE Menu',
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+          ),
+
+          // 2. Navigation Links
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: navItems.map((item) {
+                // Use ListTile for sections, with subtle hover/splash effect
+                return ListTile(
+                  title: Text(
+                    item['title'] as String,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textDark,
+                    ),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios,
+                      size: 16, color: AppColors.secondaryText),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    scrollPvd.scrollTo(item['key']);
+                  },
+                );
+              }).toList(),
+            ),
+          ),
+
+          // 3. Footer/Contact Button
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: ElevatedButton.icon(
+              onPressed: () {
+                // Example action: Open WhatsApp
+              },
+              icon: const Icon(Icons.message, color: Colors.white),
+              label: const Text('Contact Us',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primaryGreen, // Green for contact
+                minimumSize: const Size(double.infinity, 50),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
     );
   }
 }

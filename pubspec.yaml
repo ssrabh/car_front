@@ -75,6 +75,12 @@ flutter:
     - assets/images/fallback.png
     - assets/images/hero_car.png
     - assets/images/car_care.png
+    - assets/images/logo_car_care.png
+    - assets/images/deep.png
+    - assets/images/foam.png
+    - assets/images/premium.png
+    - assets/images/rubbing.png
+    - assets/images/engine.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,87 +1,204 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:s_car/config/app_data.dart';
 import '../../config/app_colors.dart';
+
+// Assuming you have this key defined globally if you use it for scrolling
+// final GlobalKey bookingFormKey = GlobalKey();
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
 
+  // Define the dark background color for this section
+  static const Color darkBackground =
+      Color(0xFF1B202A); // Matching the image's dark navy
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
-      color: AppColors.backgroundLight,
+      // Use the dark background color from the image
+      color: darkBackground,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
       width: double.infinity,
-      child: ScreenTypeLayout.builder(
-        mobile: (context) => _buildContent(context, false),
-        desktop: (context) => _buildContent(context, true),
+      child: Center(
+        // Constrain max width for desktop for better aesthetics
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 900),
+          child: ScreenTypeLayout.builder(
+            mobile: (context) => _buildContent(context, false),
+            desktop: (context) => _buildContent(context, true),
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildContent(BuildContext context, bool isWide) {
-    final Widget textContent = Column(
-      crossAxisAlignment:
-          isWide ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          'Sparkle Your Ride, Stress-Free!',
-          textAlign: isWide ? TextAlign.left : TextAlign.center,
-          style: TextStyle(
-            fontSize: isWide ? 48 : 36,
-            fontWeight: FontWeight.w900,
-            color: AppColors.secondaryBlue,
-            height: 1.1,
+        // 1. Logo and App Name
+        Image.asset(
+          'assets/images/car_care.png', // Replace with your actual logo path
+          height: 100, // Adjust size as needed
+        ),
+        const SizedBox(height: 30),
+
+        // 2. Large Title (CARCARE)
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                  fontSize: isWide ? 80 : 56, // Large size for impact
+                  fontWeight: FontWeight.w900,
+                  height: 1.0,
+                ),
+            children: const <TextSpan>[
+              TextSpan(text: 'CAR', style: TextStyle(color: Colors.white)),
+              TextSpan(
+                  text: 'CARE',
+                  style: TextStyle(color: AppColors.accentRed)), // Red accent
+            ],
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
+
+        // 3. Tagline (DON'T DRIVE DIRTY)
         Text(
-          'Effortless online booking for a premium car wash experience. Quick, reliable, and guaranteed shine.',
-          textAlign: isWide ? TextAlign.left : TextAlign.center,
-          style: TextStyle(
-              fontSize: isWide ? 20 : 16, color: Colors.grey.shade700),
+          'DON\'T DRIVE DIRTY',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: AppColors.brightYellow, // Yellow accent color
+                fontWeight: FontWeight.w600,
+              ),
         ),
-        const SizedBox(height: 24),
-        ElevatedButton.icon(
-          onPressed: () {
-            Scrollable.ensureVisible(
-              bookingFormKey
-                  .currentContext!, // FIXED: Uses the globally accessible key
-              duration: const Duration(milliseconds: 700),
-              // ...
-            );
-          },
-          icon: const Icon(Icons.arrow_downward, color: Colors.white),
-          label: const Text('Book Now',
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white)),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primaryBlue,
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        const SizedBox(height: 30),
+
+        // 4. Description
+        Text(
+          'Premium car wash & detailing services that save your time while protecting your investment',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white70,
+                fontSize: isWide ? 18 : 16,
+                height: 1.5,
+              ),
+        ),
+        const SizedBox(height: 30),
+
+        // 5. CTA Buttons (Responsive Row/Column)
+        ScreenTypeLayout.builder(
+          mobile: (context) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildBookNowButton(isWide),
+              const SizedBox(height: 15),
+              _buildWhatsAppButton(isWide),
+            ],
+          ),
+          desktop: (context) => Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildBookNowButton(isWide),
+              const SizedBox(width: 20),
+              _buildWhatsAppButton(isWide),
+            ],
           ),
         ),
+        const SizedBox(height: 40),
+
+        // 6. Feature List (Sanitized Equipment, etc.)
+        _buildFeatureList(isWide),
       ],
     );
+  }
 
-    if (isWide) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(flex: 3, child: textContent),
-          const Expanded(
-              flex: 2,
-              child: Center(
-                  child: Icon(Icons.car_repair,
-                      size: 150, color: AppColors.primaryBlue))),
-        ],
+  Widget _buildBookNowButton(
+    bool isWide,
+  ) {
+    return ElevatedButton.icon(
+      onPressed: () {},
+      icon: const Icon(Icons.calendar_month, color: AppColors.textDark),
+      label: Text('Book Now',
+          style: TextStyle(
+              fontSize: isWide ? 18 : 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textDark)),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.brightYellow, // Yellow background
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        elevation: 0,
+      ),
+    );
+  }
+
+  Widget _buildWhatsAppButton(bool isWide) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        // Implement WhatsApp chat link
+      },
+      icon: const Icon(Icons.mail, color: Colors.white),
+      label: Text('WhatsApp Us',
+          style: TextStyle(
+              fontSize: isWide ? 18 : 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.white)),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primaryGreen, // Green background
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        elevation: 0,
+      ),
+    );
+  }
+
+  Widget _buildFeatureList(bool isWide) {
+    const double spacing = 20.0;
+    const List<String> features = [
+      'Sanitized Equipment',
+      'Eco-Friendly Cleaning',
+      'Secure Online Payments',
+    ];
+
+    final Widget featureContent = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: features
+          .map((feature) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.check_circle_outline,
+                        color: AppColors.primaryGreen, size: 18),
+                    const SizedBox(width: 6),
+                    Text(feature,
+                        style: const TextStyle(color: Colors.white70)),
+                  ],
+                ),
+              ))
+          .toList(),
+    );
+
+    // Use Wrap for flow control on smaller screens if Row becomes too long
+    if (!isWide) {
+      return Wrap(
+        alignment: WrapAlignment.center,
+        spacing: spacing,
+        runSpacing: 10,
+        children: features
+            .map((feature) => Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.check_circle_outline,
+                        color: AppColors.primaryGreen, size: 18),
+                    const SizedBox(width: 6),
+                    Text(feature,
+                        style: const TextStyle(color: Colors.white70)),
+                  ],
+                ))
+            .toList(),
       );
-    } else {
-      return textContent;
     }
+    return featureContent;
   }
 }
