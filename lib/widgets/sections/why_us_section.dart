@@ -9,7 +9,7 @@ class WhyUsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Assuming this data structure is available globally
-    const List<Map<String, dynamic>> features = featuresForWhyus;
+    const List<Map<String, dynamic>> features = whyUsFeatures;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),

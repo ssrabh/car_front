@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:s_car/screens/scroll_provider.dart';
 import '../../config/app_colors.dart';
+import '../../config/app_data.dart'; // Import app_data for NavKeys
 
 // Assuming you have this key defined globally if you use it for scrolling
-// final GlobalKey bookingFormKey = GlobalKey();
+// final GlobalKey bookingFormKey = NavKeys.bookingKey; // This comes from app_data
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
@@ -90,7 +93,7 @@ class HeroSection extends StatelessWidget {
           mobile: (context) => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildBookNowButton(isWide),
+              _buildBookNowButton(context, isWide), // Pass context here
               const SizedBox(height: 15),
               _buildWhatsAppButton(isWide),
             ],
@@ -98,7 +101,7 @@ class HeroSection extends StatelessWidget {
           desktop: (context) => Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildBookNowButton(isWide),
+              _buildBookNowButton(context, isWide), // Pass context here
               const SizedBox(width: 20),
               _buildWhatsAppButton(isWide),
             ],
@@ -113,10 +116,17 @@ class HeroSection extends StatelessWidget {
   }
 
   Widget _buildBookNowButton(
+    BuildContext context, // Accept context to access Provider
     bool isWide,
   ) {
+    // Get the scroll provider instance
+    final scrollPvd = Provider.of<ScrollProvider>(context, listen: false);
+
     return ElevatedButton.icon(
-      onPressed: () {},
+      onPressed: () {
+        // CALL THE SCROLL METHOD to navigate to the BookingForm section
+        scrollPvd.scrollTo(NavKeys.bookingKey);
+      },
       icon: const Icon(Icons.calendar_month, color: AppColors.textDark),
       label: Text('Book Now',
           style: TextStyle(

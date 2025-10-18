@@ -1,7 +1,21 @@
-// Mock data for dropdown and checkboxes
 import 'package:flutter/material.dart';
 import 'package:s_car/config/app_colors.dart';
 
+// --- Global Keys for Navigation ---
+class NavKeys {
+  static final GlobalKey heroKey = GlobalKey(debugLabel: 'hero');
+  static final GlobalKey serviceKey = GlobalKey(debugLabel: 'service');
+  static final GlobalKey whyUsKey = GlobalKey(debugLabel: 'whyUs');
+  static final GlobalKey offersKey = GlobalKey(debugLabel: 'offers');
+  static final GlobalKey testimonialsKey = GlobalKey(debugLabel: 'reviews');
+  // This is the key for the BookingForm section
+  static final GlobalKey bookingKey = GlobalKey(debugLabel: 'booking');
+}
+
+// Global Key for the booking form (used by HeroSection button)
+final GlobalKey bookingFormKey = NavKeys.bookingKey;
+
+// --- Mock data for dropdown and checkboxes ---
 const List<String> vehicleTypes = [
   'Sedan',
   'SUV',
@@ -9,6 +23,7 @@ const List<String> vehicleTypes = [
   'Van',
   'Motorcycle'
 ];
+
 const List<String> availableServices = [
   'Basic Wash',
   'Premium Wash',
@@ -17,7 +32,8 @@ const List<String> availableServices = [
   'Tire Rotation'
 ];
 
-const List<Map<String, dynamic>> featuresForWhyus = [
+// --- Section Mock Data: Why Us Features ---
+const List<Map<String, dynamic>> whyUsFeatures = [
   {
     'icon': Icons.emoji_events,
     'title': 'Best',
@@ -68,22 +84,7 @@ const List<Map<String, dynamic>> featuresForWhyus = [
   },
 ];
 
-// --- Global Keys for Navigation (Fixes the Null Error) ---
-class NavKeys {
-  static final GlobalKey heroKey = GlobalKey(debugLabel: 'hero');
-  static final GlobalKey serviceKey = GlobalKey(debugLabel: 'service');
-  static final GlobalKey whyUsKey = GlobalKey(debugLabel: 'whyUs');
-  static final GlobalKey offersKey = GlobalKey(debugLabel: 'offers');
-  static final GlobalKey testimonialsKey = GlobalKey(debugLabel: 'reviews');
-  static final GlobalKey bookingKey = GlobalKey(debugLabel: 'booking');
-}
-
-// Global Key for the booking form (used by HeroSection button)
-final GlobalKey bookingFormKey = NavKeys.bookingKey;
-
-// --- Section Mock Data ---
-
-const List<Map<String, dynamic>> whyUsFeatures = [
+const List<Map<String, dynamic>> whyUsSectionFeatures = [
   {
     'icon': Icons.schedule,
     'title': 'Quick Service',
@@ -101,6 +102,7 @@ const List<Map<String, dynamic>> whyUsFeatures = [
   },
 ];
 
+// --- Section Mock Data: Offers ---
 const List<Map<String, dynamic>> festiveOffers = [
   {
     'icon': Icons.bolt,
@@ -122,6 +124,7 @@ const List<Map<String, dynamic>> festiveOffers = [
   },
 ];
 
+// --- Section Mock Data: Testimonials ---
 final List<Map<String, String>> testimonials = [
   {
     'quote':
