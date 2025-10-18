@@ -1,12 +1,29 @@
-// lib/main.dart
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'config/app_colors.dart';
+import 'package:provider/provider.dart';
+import 'package:s_car/config/app_theme.dart';
+import 'package:s_car/config/apptheme_pvd.dart';
+import 'package:s_car/config/utils.dart';
+import 'package:s_car/screens/scroll_provider.dart';
+import 'package:s_car/widgets/forms/booking_form_provider.dart';
+
 import 'screens/landing_page.dart';
 
 void main() {
-  runApp(const CarWashApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (_) => AppThemePvd(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => ScrollProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => BookingFormProvider(),
+      ),
+    ],
+    child: const CarWashApp(),
+  ));
 }
 
 class CarWashApp extends StatelessWidget {
@@ -14,30 +31,18 @@ class CarWashApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appThemePvd = Provider.of<AppThemePvd>(context);
     return MaterialApp(
       title: 'Speedy Clean Car Wash Booking',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        // Modern Font: Poppins or Inter is common for SPAs
-        fontFamily: GoogleFonts.poppins().fontFamily,
-        primaryColor: AppColors.primaryBlue,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.primaryBlue,
-          primary: AppColors.primaryBlue,
-          secondary: AppColors.secondaryBlue,
-          // Set light background color
-          background: AppColors.backgroundLight,
-        ).copyWith(
-          secondary: AppColors.secondaryBlue,
-        ),
-        // Global Card Style: Flat design with subtle rounded corners
-        cardTheme: CardTheme(
-          elevation: 0,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-        useMaterial3: true,
+      scaffoldMessengerKey: Utils.scaffoldMessengerKey,
+      theme: AppThemes.lightTheme.copyWith(
+        textTheme: GoogleFonts.poppinsTextTheme(),
       ),
+      darkTheme: AppThemes.darkTheme.copyWith(
+        textTheme: GoogleFonts.poppinsTextTheme(),
+      ),
+      themeMode: appThemePvd.themeMode,
       home: LandingPage(),
     );
   }
