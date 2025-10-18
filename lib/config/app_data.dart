@@ -17,6 +17,57 @@ const List<String> availableServices = [
   'Tire Rotation'
 ];
 
+const List<Map<String, dynamic>> featuresForWhyus = [
+  {
+    'icon': Icons.emoji_events,
+    'title': 'Best',
+    'desc': 'Industry-leading quality standards and premium service delivery',
+    'color': AppColors.accentRed,
+  },
+  {
+    'icon': Icons.shield,
+    'title': 'Trust',
+    'desc': 'Verified methods and secure processes you can rely on',
+    'color': AppColors.primaryGreen,
+  },
+  {
+    'icon': Icons.verified,
+    'title': 'Quality',
+    'desc': 'Premium products and meticulous attention to every detail',
+    'color': AppColors.primaryBlue,
+  },
+  {
+    'icon': Icons.flash_on,
+    'title': 'Speed',
+    'desc': 'Fast turnaround without compromising on service quality',
+    'color': AppColors.accentYellow,
+  },
+  {
+    'icon': Icons.attach_money,
+    'title': 'Affordable',
+    'desc': 'Competitive pricing with unmatched value for your money',
+    'color': AppColors.primaryGreen,
+  },
+  {
+    'icon': Icons.person,
+    'title': 'Professional',
+    'desc': 'Trained experts with years of automotive care experience',
+    'color': AppColors.accentBlue,
+  },
+  {
+    'icon': Icons.lightbulb_outline,
+    'title': 'Innovative',
+    'desc': 'Latest techniques and eco-friendly cleaning solutions',
+    'color': AppColors.accentPurple,
+  },
+  {
+    'icon': Icons.memory,
+    'title': 'Hi-Tech',
+    'desc': 'Advanced equipment and modern cleaning technology',
+    'color': AppColors.primaryCyan,
+  },
+];
+
 // --- Global Keys for Navigation (Fixes the Null Error) ---
 class NavKeys {
   static final GlobalKey heroKey = GlobalKey(debugLabel: 'hero');
@@ -70,21 +121,26 @@ const List<Map<String, dynamic>> festiveOffers = [
   },
 ];
 
-const List<Map<String, String>> testimonials = [
+final List<Map<String, String>> testimonials = [
   {
-    'quote': 'My car has never looked this good! The booking was so easy.',
-    'author': 'Sarah K.',
-    'rating': '★★★★★',
+    'quote':
+        '“Outstanding service! My BMW looks showroom fresh. The team was incredibly professional and the monthly subscription saves me so much time.”',
+    'author': 'Rajesh Kumar',
+    'details': 'BMW X5 Owner, Mumbai',
+    'initial': 'R',
   },
   {
     'quote':
-        'Fast, efficient, and great value. I highly recommend Speedy Clean.',
-    'author': 'David L.',
-    'rating': '★★★★★',
+        '“Best car wash in the city! The deep cleaning removed stains I thought were permanent. Monthly subscription is absolutely worth every rupee!”',
+    'author': 'Priya Sharma',
+    'details': 'Honda City Owner, Delhi',
+    'initial': 'P',
   },
   {
-    'quote': 'The best wash in town, hands down. The staff were friendly too!',
-    'author': 'Maria T.',
-    'rating': '★★★★☆',
+    'quote':
+        '“Professional service with fair pricing. They saved me 3 hours every weekend and my car always looks perfect. Highly recommend CarCare!”',
+    'author': 'Arjun Patel',
+    'details': 'Maruti Swift Owner, Bangalore',
+    'initial': 'A',
   },
 ];

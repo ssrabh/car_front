@@ -44,6 +44,7 @@ dependencies:
   intl: ^0.20.2
   google_fonts: ^6.2.0
   shared_preferences: ^2.2.3
+  hovering: ^1.0.4
   
   
 
@@ -73,6 +74,8 @@ flutter:
   assets:
     - assets/images/fallback.png
     - assets/images/hero_car.png
+    - assets/images/car_care.png
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

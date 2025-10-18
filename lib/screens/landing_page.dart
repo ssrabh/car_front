@@ -5,6 +5,7 @@ import 'package:s_car/screens/scroll_provider.dart';
 import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 import '../config/app_colors.dart';
 import '../config/app_data.dart';
+import '../widgets/responsive_nav_bar.dart';
 import '../widgets/sections/hero_section.dart';
 import '../widgets/sections/why_us_section.dart';
 import '../widgets/sections/offers_section.dart';
@@ -25,92 +26,77 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scrollPvd = Provider.of<ScrollProvider>(context);
+    final scrollPvd = Provider.of<ScrollProvider>(context, listen: false);
 
-    return Scaffold(
-      body: WebSmoothScroll(
-        controller: scrollPvd.scrollController,
-        scrollSpeed: 1.8,
-        scrollAnimationLength: 800,
-        curve: Curves.easeInOutCubic,
-        child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: scrollPvd.scrollController,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Sticky NavBar
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                color: Colors.white.withOpacity(0.95),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Speedy Clean',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w900, fontSize: 20)),
-                    ResponsiveBuilder(
-                      builder: (context, sizingInformation) {
-                        if (sizingInformation.isDesktop ||
-                            sizingInformation.isTablet) {
-                          return Row(
-                            children: _navItems.map((item) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                child: TextButton(
-                                  onPressed: () =>
-                                      scrollPvd.scrollTo(item['key']),
-                                  child: Text(
-                                    item['title'] as String,
-                                    style: const TextStyle(
-                                      color: AppColors.textDark,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          );
-                        }
-                        return PopupMenuButton<GlobalKey>(
-                          icon: const Icon(Icons.menu),
-                          onSelected: (key) => scrollPvd.scrollTo(key),
-                          itemBuilder: (_) => _navItems
-                              .map((item) => PopupMenuItem<GlobalKey>(
-                                    value: item['key'],
-                                    child: Text(item['title']),
-                                  ))
-                              .toList(),
+    return ResponsiveBuilder(
+      builder: (context, sizingInfo) {
+        final isMobile = sizingInfo.isMobile;
+
+        return Scaffold(
+          appBar: ResponsiveNavBar(navItems: _navItems),
+          drawer: isMobile
+              ? Drawer(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      const DrawerHeader(
+                        decoration: BoxDecoration(color: AppColors.primaryBlue),
+                        child: Text(
+                          'Speedy Clean',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                      ..._navItems.map((item) {
+                        return ListTile(
+                          title: Text(item['title']),
+                          onTap: () {
+                            Navigator.pop(context);
+                            scrollPvd.scrollTo(item['key']);
+                          },
                         );
-                      },
-                    ),
-                  ],
-                ),
-              ),
+                      }),
+                    ],
+                  ),
+                )
+              : null, // No drawer on tablet or desktop
 
-              // Sections
-              RepaintBoundary(key: NavKeys.heroKey, child: const HeroSection()),
-              const SizedBox(height: 80),
-              RepaintBoundary(
-                  key: NavKeys.whyUsKey, child: const WhyUsSection()),
-              const Divider(thickness: 0.5, color: Color(0xFFE0E0E0)),
-              RepaintBoundary(
-                  key: NavKeys.offersKey, child: const OffersSection()),
-              const Divider(thickness: 0.5, color: Color(0xFFE0E0E0)),
-              RepaintBoundary(
-                  key: NavKeys.testimonialsKey,
-                  child: const TestimonialsSection()),
-              const SizedBox(height: 80),
-              RepaintBoundary(
-                  key: NavKeys.bookingKey, child: const BookingForm()),
-              const SizedBox(height: 80),
-              const FooterSection(),
-            ],
+          body: WebSmoothScroll(
+            controller: scrollPvd.scrollController,
+            scrollSpeed: 2.1,
+            scrollAnimationLength: 800,
+            curve: Curves.easeInOutCubic,
+            child: SingleChildScrollView(
+              controller: scrollPvd.scrollController,
+              physics: const NeverScrollableScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  RepaintBoundary(
+                      key: NavKeys.heroKey, child: const HeroSection()),
+                  const SizedBox(height: 80),
+                  RepaintBoundary(
+                      key: NavKeys.whyUsKey, child: const WhyUsSection()),
+                  const Divider(thickness: 0.5, color: Color(0xFFE0E0E0)),
+                  RepaintBoundary(
+                      key: NavKeys.offersKey, child: const OffersSection()),
+                  const Divider(thickness: 0.5, color: Color(0xFFE0E0E0)),
+                  RepaintBoundary(
+                      key: NavKeys.testimonialsKey,
+                      child: const TestimonialsSection()),
+                  const SizedBox(height: 80),
+                  RepaintBoundary(
+                      key: NavKeys.bookingKey, child: const BookingForm()),
+                  const SizedBox(height: 80),
+                  const FooterSection(),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

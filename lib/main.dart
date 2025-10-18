@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:s_car/config/app_theme.dart';
 import 'package:s_car/config/apptheme_pvd.dart';
+import 'package:s_car/config/utils.dart';
 import 'package:s_car/screens/scroll_provider.dart';
+import 'package:s_car/widgets/forms/booking_form_provider.dart';
 
 import 'screens/landing_page.dart';
 
@@ -15,6 +17,9 @@ void main() {
       ),
       ChangeNotifierProvider(
         create: (_) => ScrollProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => BookingFormProvider(),
       ),
     ],
     child: const CarWashApp(),
@@ -30,6 +35,7 @@ class CarWashApp extends StatelessWidget {
     return MaterialApp(
       title: 'Speedy Clean Car Wash Booking',
       debugShowCheckedModeBanner: false,
+      scaffoldMessengerKey: Utils.scaffoldMessengerKey,
       theme: AppThemes.lightTheme.copyWith(
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
