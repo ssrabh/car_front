@@ -59,15 +59,14 @@ class ServiceSection extends StatelessWidget {
                   crossAxisSpacing: 30,
                   mainAxisSpacing: 30,
                   // Tweak the aspect ratio for better card presentation
-                  // FIX: Significantly reduced childAspectRatio for mobile/narrow screens (defaultValue)
-                  // A value of 0.45 forces the height to be much greater than the width.
                   childAspectRatio: ResponsiveValue(context,
-                      defaultValue: 0.45,
+                      // The new default is slightly shorter to accommodate the package card
+                      defaultValue: 0.55,
                       conditionalValues: [
                         const Condition.between(
-                            start: 600, end: 900, value: 0.55), // Tablet size
+                            start: 600, end: 900, value: 0.65), // Tablet size
                         const Condition.largerThan(
-                            name: TABLET, value: 0.65), // Desktop size
+                            name: TABLET, value: 0.75), // Desktop size
                       ]).value,
                 ),
                 itemBuilder: (context, index) {

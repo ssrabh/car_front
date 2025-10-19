@@ -44,6 +44,52 @@ class LandingPage extends StatelessWidget {
           final isMobile = sizingInfo.isMobile;
           final scrollPvd = Provider.of<ScrollProvider>(context, listen: false);
 
+          // The core content wrapped in a SingleChildScrollView
+          final scrollableContent = SingleChildScrollView(
+            // Use NeverScrollableScrollPhysics only on desktop/web
+            // This prevents conflicts with WebSmoothScroll, or allows native mobile scrolling.
+            controller: scrollPvd.scrollController,
+            physics: isMobile
+                ? const AlwaysScrollableScrollPhysics() // Allows native touch scrolling
+                : const NeverScrollableScrollPhysics(), // Disables native scrolling on desktop
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                RepaintBoundary(
+                    key: NavKeys.heroKey, child: const HeroSection()),
+                const SizedBox(height: 80),
+                RepaintBoundary(
+                    key: NavKeys.serviceKey, child: const ServiceSection()),
+                const SizedBox(height: 80),
+                RepaintBoundary(
+                    key: NavKeys.whyUsKey, child: const WhyUsSection()),
+                const Divider(thickness: 0.5, color: Color(0xFFE0E0E0)),
+                RepaintBoundary(
+                    key: NavKeys.offersKey, child: const OffersSection()),
+                const Divider(thickness: 0.5, color: Color(0xFFE0E0E0)),
+                RepaintBoundary(
+                    key: NavKeys.testimonialsKey,
+                    child: const TestimonialsSection()),
+                const SizedBox(height: 80),
+                RepaintBoundary(
+                    key: NavKeys.bookingKey, child: const BookingForm()),
+                const SizedBox(height: 80),
+                const FooterSection(),
+              ],
+            ),
+          );
+
+          // Conditionally wrap the content with WebSmoothScroll
+          Widget bodyWidget = isMobile
+              ? scrollableContent // No smooth scroll on mobile
+              : WebSmoothScroll(
+                  controller: scrollPvd.scrollController,
+                  scrollSpeed: 2.1,
+                  scrollAnimationLength: 800,
+                  curve: Curves.easeInOutCubic,
+                  child: scrollableContent,
+                );
+
           return Scaffold(
             // AppBar handles the Burger icon automatically
             appBar: ResponsiveNavBar(navItems: _navItems),
@@ -53,41 +99,7 @@ class LandingPage extends StatelessWidget {
                 ? _buildModernEndDrawer(context, _navItems, scrollPvd)
                 : null, // No drawer on tablet or desktop
 
-            body: WebSmoothScroll(
-              controller: scrollPvd.scrollController,
-              scrollSpeed: 2.1,
-              scrollAnimationLength: 800,
-              curve: Curves.easeInOutCubic,
-              child: SingleChildScrollView(
-                controller: scrollPvd.scrollController,
-                physics: const NeverScrollableScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    RepaintBoundary(
-                        key: NavKeys.heroKey, child: const HeroSection()),
-                    const SizedBox(height: 80),
-                    RepaintBoundary(
-                        key: NavKeys.serviceKey, child: const ServiceSection()),
-                    const SizedBox(height: 80),
-                    RepaintBoundary(
-                        key: NavKeys.whyUsKey, child: const WhyUsSection()),
-                    const Divider(thickness: 0.5, color: Color(0xFFE0E0E0)),
-                    RepaintBoundary(
-                        key: NavKeys.offersKey, child: const OffersSection()),
-                    const Divider(thickness: 0.5, color: Color(0xFFE0E0E0)),
-                    RepaintBoundary(
-                        key: NavKeys.testimonialsKey,
-                        child: const TestimonialsSection()),
-                    const SizedBox(height: 80),
-                    RepaintBoundary(
-                        key: NavKeys.bookingKey, child: const BookingForm()),
-                    const SizedBox(height: 80),
-                    const FooterSection(),
-                  ],
-                ),
-              ),
-            ),
+            body: bodyWidget,
           );
         },
       ),

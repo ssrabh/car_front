@@ -1,5 +1,6 @@
 // 1. Data Structure for a single Service Card
 class ServiceModel {
+  String id; // New ID to uniquely identify the special card
   String imgPath;
   String title;
   String subtitle;
@@ -7,6 +8,7 @@ class ServiceModel {
   String price;
 
   ServiceModel({
+    required this.id, // ID is now required
     required this.imgPath,
     required this.title,
     required this.subtitle,
@@ -23,6 +25,7 @@ class ServiceModelData {
 
   static List<ServiceModel> datalist = [
     ServiceModel(
+        id: 'foam_wash',
         imgPath: "assets/images/foam.png",
         title: "Foam Wash",
         subtitle:
@@ -35,6 +38,7 @@ class ServiceModelData {
         ],
         price: '₹150'),
     ServiceModel(
+        id: 'premium_wash',
         imgPath: "assets/images/premium.png",
         title: "Premium Wash",
         subtitle:
@@ -47,6 +51,7 @@ class ServiceModelData {
         ],
         price: '₹199'),
     ServiceModel(
+        id: 'deep_cleaning',
         imgPath: "assets/images/deep.png",
         title: "Deep Cleaning",
         subtitle:
@@ -59,6 +64,7 @@ class ServiceModelData {
         ],
         price: '₹599'),
     ServiceModel(
+        id: 'rubbing_polishing',
         imgPath: "assets/images/rubbing.png", // Assuming a different image
         title: "Rubbing & Polishing",
         subtitle:
@@ -71,6 +77,7 @@ class ServiceModelData {
         ],
         price: '₹1299'),
     ServiceModel(
+        id: 'engine_detailing',
         imgPath: "assets/images/engine.png", // Assuming a different image
         title: "Engine Detailing",
         subtitle:
@@ -82,5 +89,18 @@ class ServiceModelData {
           "Performance boost"
         ],
         price: '₹499'),
+    // --- BEST VALUE PACKAGE ---
+    ServiceModel(
+        id: 'best_value', // Unique ID for identification
+        imgPath: "", // No image path needed for this design
+        title: "Shine Always Plan",
+        subtitle:
+            "The ultimate maintenance package for a perpetually clean car at our lowest monthly rate.",
+        data: [
+          "UNLIMITED Basic Foam Washes",
+          "2 Premium Interior & Exterior Cleans",
+          "Guaranteed Same-Day Service (Priority)"
+        ],
+        price: '₹799'),
   ];
 }
