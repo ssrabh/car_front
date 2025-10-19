@@ -5,6 +5,7 @@ class Utils {
   static final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
+  // Navigator key is required for showing global dialogs or sheets
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
@@ -62,5 +63,18 @@ class Utils {
     );
   }
 
-  // Optionally add more convenience methods here
+  // Utility to scroll to a specific section using its GlobalKey
+  static void scrollToKey(GlobalKey key,
+      {double offset = 0.0,
+      Duration duration = const Duration(milliseconds: 500)}) {
+    final context = key.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
+        duration: duration,
+        curve: Curves.easeInOut,
+        alignment: 0.0, // Scroll to the top of the element
+      );
+    }
+  }
 }

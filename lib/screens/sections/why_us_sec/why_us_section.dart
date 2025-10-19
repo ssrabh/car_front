@@ -1,37 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:hovering/hovering.dart';
-import '../../config/app_colors.dart';
-import '../../config/app_data.dart'; // Assume featuresForWhyus is here
+import 'package:s_car/config/app_colors.dart';
+import 'package:s_car/screens/sections/why_us_sec/why_us_model.dart';
 
 class WhyUsSection extends StatelessWidget {
   const WhyUsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Assuming this data structure is available globally
-    const List<Map<String, dynamic>> features = featuresForWhyus;
+    // Use the structured data list
+    final data = WhyUsModelData.datalist;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
       width: double.infinity,
       child: Column(
         children: [
-          // Section Header
+          // Section Header - Now using data from WhyUsModelData
           RichText(
+            textAlign: TextAlign.center,
             text: TextSpan(
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                   fontWeight: FontWeight.bold, color: AppColors.textDark),
-              children: const [
-                TextSpan(text: "Why Choose "),
+              children: [
+                TextSpan(text: WhyUsModelData.mainTitle.split(" ")[0] + " "),
                 TextSpan(
-                    text: "CarCare?",
-                    style: TextStyle(color: AppColors.accentRed)),
+                    text: WhyUsModelData.mainTitle
+                        .substring(WhyUsModelData.mainTitle.indexOf(" ") + 1),
+                    style: const TextStyle(color: AppColors.accentRed)),
               ],
             ),
           ),
           const SizedBox(height: 12),
+          // Subtitle - Now using data from WhyUsModelData
           Text(
-            "Eight compelling reasons why we're the best choice for your vehicle's care",
+            WhyUsModelData.subTitle,
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16, color: Colors.grey.shade700),
           ),
@@ -43,19 +46,18 @@ class WhyUsSection extends StatelessWidget {
             child: GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: features.length,
+              itemCount: data.length,
               // Use MaxCrossAxisExtent for modern, truly responsive grids
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                // Max width of each item (for Mobile: 300, Tablet: 300, Desktop: 300)
+                // Max width of each item (for Mobile: 350, Tablet: 350, Desktop: 350)
                 maxCrossAxisExtent: 350.0,
                 crossAxisSpacing: 24,
                 mainAxisSpacing: 32,
-                // **THE FIX**: Set a fixed height (mainAxisExtent) that is tall enough
-                // for the card content (Icon + Text + Padding)
+                // Fixed height for the card content
                 mainAxisExtent: 300.0,
               ),
               itemBuilder: (context, index) {
-                final feature = features[index];
+                final feature = data[index];
                 return HoverWidget(
                   hoverChild: _buildCard(feature, hovered: true),
                   onHover: (event) {},
@@ -69,8 +71,9 @@ class WhyUsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildCard(Map<String, dynamic> feature, {bool hovered = false}) {
-    final color = feature['color'] as Color;
+  // Card now accepts WhyUsFeatureModel instead of Map
+  Widget _buildCard(WhyUsFeatureModel feature, {bool hovered = false}) {
+    final color = feature.color; // Use feature property directly
     final scale = hovered ? 1.03 : 1.0; // Reduced scale for subtler effect
     final shadowOpacity = hovered ? 0.4 : 0.15;
 
@@ -107,14 +110,15 @@ class WhyUsSection extends StatelessWidget {
                   ],
                 ),
                 padding: const EdgeInsets.all(12),
-                child: Icon(feature['icon'] as IconData,
-                    color: Colors.white, size: 28), // Slightly smaller icon
+                // Use feature property directly
+                child: Icon(feature.icon, color: Colors.white, size: 28),
               ),
               const SizedBox(height: 20),
 
               // Title
+              // Use feature property directly
               Text(
-                feature['title'] as String,
+                feature.title,
                 style: const TextStyle(
                     fontWeight: FontWeight.w900,
                     fontSize: 18,
@@ -124,9 +128,9 @@ class WhyUsSection extends StatelessWidget {
 
               // Description
               Expanded(
-                // Use Expanded here to ensure description doesn't cause overflow if it's long
+                // Use feature property directly
                 child: Text(
-                  feature['desc'] as String,
+                  feature.description,
                   textAlign: TextAlign.left, // Left-aligned description
                   style: TextStyle(
                     color: Colors.grey[700],

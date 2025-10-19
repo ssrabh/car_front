@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../models/booking_model.dart';
+import '../screens/sections/contact_sec/booking_model.dart';
 
 class ApiService {
   final Dio _dio = Dio();

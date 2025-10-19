@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:s_car/config/global_keys.dart';
+import 'package:s_car/config/utils.dart';
 import '../../config/app_colors.dart';
-
-// Assuming you have this key defined globally if you use it for scrolling
-// final GlobalKey bookingFormKey = GlobalKey();
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
@@ -14,22 +13,27 @@ class HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // Use the dark background color from the image
-      color: darkBackground,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
-      width: double.infinity,
-      child: Center(
-        // Constrain max width for desktop for better aesthetics
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 900),
-          child: ScreenTypeLayout.builder(
-            mobile: (context) => _buildContent(context, false),
-            desktop: (context) => _buildContent(context, true),
+    // --- FIX: Wrap the container in a Builder and place the key on the Builder.
+    // This often resolves the implicit RepaintBoundary conflict. ---
+    return Builder(
+        // key: NavKeys.heroKey,
+        builder: (context) {
+      return Container(
+        color: darkBackground,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
+        width: double.infinity,
+        child: Center(
+          // Constrain max width for desktop for better aesthetics
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 900),
+            child: ScreenTypeLayout.builder(
+              mobile: (context) => _buildContent(context, false),
+              desktop: (context) => _buildContent(context, true),
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildContent(BuildContext context, bool isWide) {
@@ -116,7 +120,10 @@ class HeroSection extends StatelessWidget {
     bool isWide,
   ) {
     return ElevatedButton.icon(
-      onPressed: () {},
+      // The button correctly scrolls to the booking form key.
+      onPressed: () {
+        Utils.scrollToKey(bookingFormKey);
+      },
       icon: const Icon(Icons.calendar_month, color: AppColors.textDark),
       label: Text('Book Now',
           style: TextStyle(
@@ -134,8 +141,9 @@ class HeroSection extends StatelessWidget {
 
   Widget _buildWhatsAppButton(bool isWide) {
     return ElevatedButton.icon(
+      // The button correctly scrolls to the booking form key.
       onPressed: () {
-        // Implement WhatsApp chat link
+        //  Utils.scrollToKey(bookingFormKey);
       },
       icon: const Icon(Icons.mail, color: Colors.white),
       label: Text('WhatsApp Us',

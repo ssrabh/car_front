@@ -5,7 +5,7 @@ import 'package:s_car/config/app_theme.dart';
 import 'package:s_car/config/apptheme_pvd.dart';
 import 'package:s_car/config/utils.dart';
 import 'package:s_car/screens/scroll_provider.dart';
-import 'package:s_car/widgets/forms/booking_form_provider.dart';
+import 'package:s_car/screens/sections/contact_sec/booking_form_provider.dart';
 
 import 'screens/landing_page.dart';
 
@@ -36,6 +36,7 @@ class CarWashApp extends StatelessWidget {
       title: 'Speedy Clean Car Wash Booking',
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: Utils.scaffoldMessengerKey,
+      // navigatorKey: Utils.navigatorKey,
       theme: AppThemes.lightTheme.copyWith(
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),

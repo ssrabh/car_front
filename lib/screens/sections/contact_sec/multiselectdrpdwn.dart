@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../config/app_colors.dart';
-import '../forms/booking_form_provider.dart';
+import '../../../config/app_colors.dart';
+import 'booking_form_provider.dart';
 
 class MultiSelectDropdown extends StatefulWidget {
   final List<String> items;
@@ -26,29 +26,24 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
         showDialog(
           context: context,
           builder: (ctx) {
-            return StatefulBuilder(
-              builder: (context, setState) {
+            // Using Consumer inside the dialog to react to provider changes
+            return Consumer<BookingFormProvider>(
+              builder: (dialogContext, dialogProv, _) {
                 return AlertDialog(
                   title: Text(widget.label),
                   content: SingleChildScrollView(
                     child: ListBody(
                       children: widget.items.map((item) {
-                        final isSelected = prov.selectedServices.contains(item);
+                        final isSelected =
+                            dialogProv.selectedServices.contains(item);
                         return CheckboxListTile(
                           title: Text(item),
                           value: isSelected,
                           activeColor: AppColors.primaryBlue,
                           controlAffinity: ListTileControlAffinity.leading,
                           onChanged: (checked) {
-                            setState(() {
-                              if (checked == true) {
-                                prov.selectedServices.add(item);
-                              } else {
-                                prov.selectedServices.remove(item);
-                              }
-                            });
-                            // Notify provider listeners outside setState
-                            prov.notifyListeners();
+                            // CORRECT: Use the provider's official toggle method
+                            dialogProv.toggleService(item);
                           },
                         );
                       }).toList(),
