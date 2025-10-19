@@ -19,7 +19,7 @@ class ServiceSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Header Title (Now using data from ServiceModelData)
+              // --- Header Title ---
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
@@ -27,19 +27,19 @@ class ServiceSection extends StatelessWidget {
                       fontWeight: FontWeight.bold, color: AppColors.textDark),
                   children: [
                     TextSpan(
-                        text:
-                            "${ServiceModelData.mainTitle.split(" ")[0]} "), // "Our"
+                        text: "${ServiceModelData.mainTitle.split(" ")[0]} "),
                     TextSpan(
-                        text: ServiceModelData.mainTitle.substring(
-                            ServiceModelData.mainTitle.indexOf(" ") +
-                                1), // "Professional Services"
-                        style: const TextStyle(color: AppColors.accentRed)),
+                      text: ServiceModelData.mainTitle.substring(
+                        ServiceModelData.mainTitle.indexOf(" ") + 1,
+                      ),
+                      style: const TextStyle(color: AppColors.accentRed),
+                    ),
                   ],
                 ),
               ),
               const SizedBox(height: 12),
 
-              // Header Subtitle (Now using data from ServiceModelData)
+              // --- Subtitle ---
               Text(
                 ServiceModelData.subTitle,
                 textAlign: TextAlign.center,
@@ -47,32 +47,27 @@ class ServiceSection extends StatelessWidget {
               ),
               const SizedBox(height: 50),
 
-              // Responsive Grid View (Using ResponsiveGridView.builder for better control)
+              // --- Responsive Grid ---
               ResponsiveGridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: ServiceModelData.datalist.length,
                 alignment: Alignment.center,
-                // Define the layout based on screen size
                 gridDelegate: ResponsiveGridDelegate(
-                  maxCrossAxisExtent: 400, // Max width of a single card
-                  crossAxisSpacing: 30,
+                  maxCrossAxisExtent: 400,
+                  crossAxisSpacing: 20,
                   mainAxisSpacing: 30,
-                  // Tweak the aspect ratio for better card presentation
-                  childAspectRatio: ResponsiveValue(context,
-                      // The new default is slightly shorter to accommodate the package card
-                      defaultValue: 0.55,
-                      conditionalValues: [
-                        const Condition.between(
-                            start: 600, end: 900, value: 0.65), // Tablet size
-                        const Condition.largerThan(
-                            name: TABLET, value: 0.75), // Desktop size
-                      ]).value,
+                  childAspectRatio: ResponsiveValue(
+                    context,
+                    defaultValue: 0.6,
+                    conditionalValues: [
+                      const Condition.smallerThan(name: TABLET, value: 0.8),
+                      const Condition.between(start: 600, end: 900, value: 0.7),
+                    ],
+                  ).value,
                 ),
                 itemBuilder: (context, index) {
-                  return ServiceCard(
-                      model: ServiceModelData
-                          .datalist[index]); // Use 'model' property
+                  return ServiceCard(model: ServiceModelData.datalist[index]);
                 },
               ),
             ],
