@@ -143,7 +143,7 @@ class HeroSection extends StatelessWidget {
     return ElevatedButton.icon(
       // The button correctly scrolls to the booking form key.
       onPressed: () {
-        //  Utils.scrollToKey(bookingFormKey);
+        Utils.scrollToKey(bookingFormKey);
       },
       icon: const Icon(Icons.mail, color: Colors.white),
       label: Text('WhatsApp Us',

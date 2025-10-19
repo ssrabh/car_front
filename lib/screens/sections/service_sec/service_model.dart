@@ -24,7 +24,7 @@ class ServiceModelData {
   static List<ServiceModel> datalist = [
     ServiceModel(
         imgPath: "assets/images/foam.png",
-        title: "Foam Wash & Wax",
+        title: "Foam Wash",
         subtitle:
             'Deep cleaning that removes dirt and grime while being gentle on your paint.',
         data: [
@@ -35,40 +35,52 @@ class ServiceModelData {
         ],
         price: '₹150'),
     ServiceModel(
-        imgPath: "assets/images/deep.png", // Assuming a different image
-        title: "Full Interior Detail",
+        imgPath: "assets/images/premium.png",
+        title: "Premium Wash",
         subtitle:
-            'A thorough deep clean of your cabin, removing odors and stains.',
+            "Complete exterior and interior cleaning with premium products and attention to detail",
         data: [
-          'Deep vacuum & shampoo',
-          'Dashboard & console polish',
-          'Seat cleaning (Fabric/Leather)',
-          'Air freshener treatment',
+          "Everything in Foam",
+          "Interior vacuum",
+          "Dashboard polish",
+          "Tire shine"
         ],
-        price: '₹999'),
+        price: '₹199'),
     ServiceModel(
-        imgPath: "assets/images/premium.png", // Assuming a different image
-        title: "Premium Oil Change",
+        imgPath: "assets/images/deep.png",
+        title: "Deep Cleaning",
         subtitle:
-            'Fast and reliable oil change service using only synthetic oils.',
+            "Intensive interior and exterior deep clean removing stubborn stains and odors",
         data: [
-          'Full synthetic oil replacement',
-          'Oil filter change',
-          'Multi-point inspection',
-          'Fluid top-offs',
+          "Complete premium wash",
+          "Steam cleaning",
+          "Stain removal",
+          "Odor elimination"
         ],
-        price: '₹1499'),
+        price: '₹599'),
     ServiceModel(
-        imgPath: "assets/images/premium.png", // Assuming a different image
-        title: "Premium Oil Change",
+        imgPath: "assets/images/rubbing.png", // Assuming a different image
+        title: "Rubbing & Polishing",
         subtitle:
-            'Fast and reliable oil change service using only synthetic oils.',
+            "Restore your car's shine with professional polishing and paint correction",
         data: [
-          'Full synthetic oil replacement',
-          'Oil filter change',
-          'Multi-point inspection',
-          'Fluid top-offs',
+          "Paint correction",
+          "Professional polishing",
+          "Scratch removal",
+          "Protective wax"
         ],
-        price: '₹1499'),
+        price: '₹1299'),
+    ServiceModel(
+        imgPath: "assets/images/engine.png", // Assuming a different image
+        title: "Engine Detailing",
+        subtitle:
+            "Thorough cleaning of engine compartment and undercarriage for optimal performance",
+        data: [
+          "Engine degreasing",
+          "Undercarriage wash",
+          "Component protection",
+          "Performance boost"
+        ],
+        price: '₹499'),
   ];
 }

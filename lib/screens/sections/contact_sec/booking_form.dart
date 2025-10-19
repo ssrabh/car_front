@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:s_car/screens/sections/contact_sec/contact_model.dart';
 import 'package:s_car/screens/sections/contact_sec/booking_form_provider.dart';
-import 'package:s_car/screens/sections/contact_sec/multiselectdrpdwn.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_data.dart'; // Still needed for vehicleTypes, availableServices
 
@@ -204,7 +203,7 @@ class _BookingFormState extends State<BookingForm> {
       _buildDropdown<String>(
         label: 'Vehicle Type',
         value: prov.vehicleType,
-        items: vehicleTypes,
+        items: vehicleTypes, // Use AppData.vehicleTypes
         onChanged: (val) => prov.setVehicleType(val),
       ),
 
@@ -223,6 +222,7 @@ class _BookingFormState extends State<BookingForm> {
               runSpacing: 10,
               children: [
                 ...availableServices.map((service) => SizedBox(
+                      // Use AppData.availableServices
                       width: 180, // Fixed width for alignment
                       child: _buildServiceCheckbox(
                           label: service,
@@ -311,7 +311,10 @@ class _BookingFormState extends State<BookingForm> {
           Expanded(
             child: ElevatedButton.icon(
               onPressed: () {
-                // Handle WhatsApp link logic here
+                // 1. Save the current form state to update the provider
+                _formKey.currentState!.save();
+                // 2. Launch WhatsApp with the collected data
+                prov.launchWhatsAppBooking(context);
               },
               icon: const Icon(Icons.mail, color: Colors.white),
               label: const Text(
@@ -460,7 +463,7 @@ class _BookingFormState extends State<BookingForm> {
 
       return Container(
         // === CRITICAL FIX: Apply the GlobalKey here so Utils.scrollToKey can find this widget ===
-        // key: bookingFormKey,
+        // key: bookingFormKey, // Use this if you need to scroll to it, but it seems it's currently commented out
         padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
         color: AppColors.textDark, // Dark background for the whole section
         width: double.infinity,
@@ -489,7 +492,7 @@ class _BookingFormState extends State<BookingForm> {
                 Text(
                   ContactModelData.subTitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, color: Colors.white70),
+                  style: const TextStyle(fontSize: 18, color: Colors.white70),
                 ),
                 const SizedBox(height: 40),
 
