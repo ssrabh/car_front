@@ -153,6 +153,200 @@ class _BookingFormState extends State<BookingForm> {
   }
 
   Widget _buildBookingForm(BuildContext context, BookingFormProvider prov) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
+    Widget _responsiveRow(List<Widget> children) {
+      if (isMobile) {
+        return Column(
+          children: [
+            for (int i = 0; i < children.length; i++) ...[
+              children[i],
+              if (i < children.length - 1) const SizedBox(height: 12),
+            ]
+          ],
+        );
+      }
+      return Row(
+        children: [
+          for (int i = 0; i < children.length; i++) ...[
+            Expanded(child: children[i]),
+            if (i < children.length - 1) const SizedBox(width: 16),
+          ]
+        ],
+      );
+    }
+
+    return Container(
+      padding: EdgeInsets.all(isMobile ? 20 : 40),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(isMobile ? 0 : 15),
+          bottomRight: const Radius.circular(15),
+          bottomLeft: Radius.circular(isMobile ? 15 : 0),
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              _buildTextField(
+                label: 'Full Name',
+                icon: Icons.person,
+                initialValue: prov.fullName,
+                onSaved: prov.setFullName,
+                validator: (val) => val == null || val.isEmpty
+                    ? 'Please enter your name'
+                    : null,
+              ),
+              const SizedBox(height: 12),
+              _responsiveRow([
+                _buildTextField(
+                  label: 'Email',
+                  icon: Icons.email,
+                  keyboardType: TextInputType.emailAddress,
+                  initialValue: prov.email,
+                  onSaved: prov.setEmail,
+                  validator: (val) {
+                    if (val == null || val.isEmpty) return 'Enter email';
+                    final emailRegex =
+                        RegExp(r'^[\w-.]+@([\w-]+\.)+[\w]{2,4}$');
+                    if (!emailRegex.hasMatch(val)) return 'Invalid email';
+                    return null;
+                  },
+                ),
+                _buildTextField(
+                  label: 'Phone',
+                  icon: Icons.phone,
+                  keyboardType: TextInputType.phone,
+                  initialValue: prov.phone,
+                  onSaved: prov.setPhone,
+                  validator: (val) =>
+                      val == null || val.isEmpty ? 'Enter phone number' : null,
+                ),
+              ]),
+              const SizedBox(height: 12),
+              _buildDropdown<String>(
+                label: 'Vehicle Type',
+                value: prov.vehicleType,
+                items: vehicleTypes,
+                onChanged: prov.setVehicleType,
+              ),
+              const SizedBox(height: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Services Needed',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textDark)),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 4,
+                    children: availableServices.map((service) {
+                      return _buildServiceCheckbox(
+                        label: service,
+                        value: prov.selectedServices.contains(service),
+                        onChanged: (_) => prov.toggleService(service),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              _responsiveRow([
+                _buildTextField(
+                  label: 'Preferred Date',
+                  icon: Icons.calendar_today,
+                  controller: _dateController,
+                  readOnly: true,
+                  onTap: () => _selectDate(context, prov),
+                  validator: (val) =>
+                      val == null || val.isEmpty ? 'Select date' : null,
+                ),
+                _buildTextField(
+                  label: 'Preferred Time',
+                  icon: Icons.schedule,
+                  controller: _timeController,
+                  readOnly: true,
+                  onTap: () => _selectTime(context, prov),
+                  validator: (val) =>
+                      val == null || val.isEmpty ? 'Select time' : null,
+                ),
+              ]),
+              const SizedBox(height: 12),
+              _buildTextField(
+                label: 'Additional Message',
+                initialValue: prov.message,
+                onSaved: prov.setMessage,
+                maxLines: 3,
+              ),
+              const SizedBox(height: 20),
+              _responsiveRow([
+                ElevatedButton.icon(
+                  onPressed: prov.isSubmitting
+                      ? null
+                      : () async {
+                          if (!_formKey.currentState!.validate()) return;
+                          _formKey.currentState!.save();
+                          await prov.createBooking(context);
+                        },
+                  icon: prov.isSubmitting
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2, color: Colors.black),
+                        )
+                      : const Icon(Icons.calendar_month, color: Colors.black),
+                  label: const Text(
+                    'Book Now',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.accentYellow,
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    _formKey.currentState!.save();
+                    prov.launchWhatsAppBooking(context);
+                  },
+                  icon: const Icon(Icons.mail, color: Colors.white),
+                  label: const Text(
+                    'WhatsApp Us',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryGreen,
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                ),
+              ]),
+              const SizedBox(height: 15),
+              const Text(
+                'By booking, you agree to our terms. We use secure online payment.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12, color: Colors.black54),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+/*
+  Widget _buildBookingForm(BuildContext context, BookingFormProvider prov) {
     // Form fields definitions moved inside a helper list
     final formFields = [
       _buildTextField(
@@ -364,6 +558,8 @@ class _BookingFormState extends State<BookingForm> {
       ),
     );
   }
+
+*/
 
   // --- Reused Form Field Widgets ---
 
